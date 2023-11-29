@@ -49,21 +49,22 @@ namespace WebApiDemo_Liu.Controllers
         // if using [FromBody], parameter has to be an object
         // [HttpPost("/shirts")]
         [HttpPost]
+        [Shirt_ValidateCreateShirtFilter]
         // if using [FromForm], parameter has to be an object
         public IActionResult CreateShirt([FromBody] Shirt shirt)
         {
 
             //return Ok("Create a shirt");
-            if(shirt == null)
-            {
-                return BadRequest();
-            }
-            var existingShirt = ShirtRepository.GetShirtByProperties(shirt.Brand, shirt.Gender, shirt.Color, shirt.Size);
+            //if(shirt == null)
+            //{
+            //    return BadRequest();
+            //}
+            //var existingShirt = ShirtRepository.GetShirtByProperties(shirt.Brand, shirt.Gender, shirt.Color, shirt.Size);
             
-            if (existingShirt != null)
-            {
-                return BadRequest();
-            }
+            //if (existingShirt != null)
+            //{
+            //    return BadRequest();
+            //}
 
             ShirtRepository.AddShirt(shirt); // here once added, the shirt has id.
 
