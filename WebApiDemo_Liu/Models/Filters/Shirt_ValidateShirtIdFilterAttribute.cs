@@ -16,12 +16,24 @@ namespace WebApiDemo_Liu.Models.Filters
                 if (shirtId.Value <= 0)
                 {
                     context.ModelState.AddModelError("ShirtId", "ShirtId is invalid");
-                    context.Result = new BadRequestObjectResult(context.ModelState);
+                    var problemDetails = new ValidationProblemDetails(context.ModelState)
+                    // Below actually not needed but nice to know.
+                    {
+                        Status = StatusCodes.Status400BadRequest
+                    }
+                    ;
+                    context.Result = new BadRequestObjectResult(problemDetails);
                 }
                 else if (!ShirtRepository.ShirtsExists(shirtId.Value))
                 {
                     context.ModelState.AddModelError("ShirtId", "Shirt not exists.");
-                    context.Result = new NotFoundObjectResult(context.ModelState);
+                    var problemDetails = new ValidationProblemDetails(context.ModelState)
+                    // Below actually not needed but nice to know.
+                    {
+                        Status = StatusCodes.Status404NotFound
+                    };
+
+                    context.Result = new NotFoundObjectResult(problemDetails);
                 }
             }
         }
